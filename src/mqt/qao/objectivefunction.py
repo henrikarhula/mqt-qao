@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, cast
+import re
 
 # for managing symbols
 from sympy import Expr, expand
@@ -153,9 +154,9 @@ class ObjectiveFunction:
         """
         for obj in self.objective_functions:
             obj_str = str(obj[0])
-            if obj_str.startswith("-") and obj_str[1] != " ":
-                obj_str = obj_str[0] + " " + obj_str[1:]
-            fields = str(obj_str).replace("**", "^").split(" ")
+            obj_str = obj_str.replace("**", "^")
+            fields = [x.strip() for x in re.split('([+-])', obj_str)]  # split by + and - signs and strip trailing and leading whitespaces
+            fields = filter(None, fields)  # filter out empty strings possibly created by re.split
             func = 0.0
             sign = "+"
             for field in fields:
