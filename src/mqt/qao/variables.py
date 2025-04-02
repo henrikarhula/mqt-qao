@@ -10,7 +10,7 @@ import numpy as np
 from qubovert import boolean_var
 
 # for managing symbols
-from sympy import Symbol, expand, symbols
+from sympy import Symbol, expand
 
 
 class Variables:
@@ -597,7 +597,7 @@ class Variable:
         binary_variables_name_weight[self.name].append("dictionary")
         for val in values:
             binary_variables_name_weight[self.name].append((boolean_var(letter + format(i)), val))
-            var_sum += symbols(letter + format(i))
+            var_sum += Symbol(letter + format(i))
             i += 1
 
         # Add the needed constraint
@@ -851,7 +851,7 @@ class Binary(Variable):
         self.symbol -- variable symbol
         """
         self.name = name
-        self.symbol = symbols(name)
+        self.symbol = Symbol(name)
         if unipolar:
             self.type = "b"
         else:
@@ -873,7 +873,7 @@ class Discrete(Variable):
         self.symbol -- variable symbol
         """
         self.name = name
-        self.symbol = symbols(name)
+        self.symbol = Symbol(name)
         self._values = values
         self.type = "d"
         return self.symbol
@@ -936,7 +936,7 @@ class Continuous(Variable):
         self.symbol -- variable symbol
         """
         self.name = name
-        self.symbol = symbols(name)
+        self.symbol = Symbol(name)
         self._min = min_val
         self._max = max_val
         self.precision = precision
