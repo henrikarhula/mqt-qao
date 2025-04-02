@@ -367,7 +367,7 @@ def test_variable_names() -> None:
         "['0', '1']a",
         "(['1'])",
         "['0', '1']",
-        "('0', '1')"
+        "('0', '1')",
     ]
     for vname in var_names:
         newvar = variables.add_binary_variable(vname)
