@@ -347,6 +347,36 @@ def test_cost_function() -> None:
     assert dict(sorted(qubo_re.items())) == dict(sorted(reference_qubo_dict_re.items()))
 
 
+def test_variable_names() -> None:
+    """Test for various types of variable names"""
+    variables = Variables()
+    constraint = Constraints()
+    obj_func = ObjectiveFunction()
+    var_names = [
+        "a",
+        "a1",
+        "a_1",
+        "a['1']",
+        "a('1')",
+        "a['0', '1']",
+        "a('0', '1')",
+        "a[('0', '1')]",
+        "a(['0', '1'])",
+        "1a",
+        "['1']a",
+        "['0', '1']a",
+        "(['1'])",
+        "['0', '1']",
+        "('0', '1')"
+    ]
+    for vname in var_names:
+        newvar = variables.add_binary_variable(vname)
+        obj_func.add_objective_function(newvar)
+    variables.move_to_binary(constraint.constraints)
+    qubo = PUBO()
+    qubo = obj_func.rewrite_cost_functions(qubo, variables)
+
+
 def test_cost_function_matrix() -> None:
     """Test for cost function translation"""
     variables = Variables()
